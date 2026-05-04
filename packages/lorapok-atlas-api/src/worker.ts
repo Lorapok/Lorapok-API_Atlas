@@ -83,7 +83,7 @@ export default {
     if (path === '/') {
       return json({
         name: 'Lorapok Atlas API',
-        version: '1.0.0',
+        version: '1.0.1',
         description: '2100+ curated free & open-source APIs',
         total: ALL_APIS.length,
         categories: [...new Set(ALL_APIS.map(a => a.category))].length,
