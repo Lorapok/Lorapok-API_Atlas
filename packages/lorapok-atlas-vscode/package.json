@@ -2,7 +2,7 @@
   "name": "lorapok-atlas",
   "displayName": "Lorapok Atlas — API Directory",
   "description": "Browse, search, and insert code snippets from 2100+ free open-source APIs directly in VS Code",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "Lorapok",
   "icon": "media/icon.png",
   "engines": { "vscode": "^1.85.0" },
@@ -11,39 +11,33 @@
   "main": "./dist/extension.js",
   "activationEvents": [],
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "lorapok-atlas",
-          "title": "Lorapok Atlas",
-          "icon": "media/icon-activity.svg"
-        }
-      ]
-    },
-    "views": {
-      "lorapok-atlas": [
-        {
-          "type": "webview",
-          "id": "lorapok-atlas.panel",
-          "name": "API Directory"
-        }
-      ]
-    },
     "commands": [
       {
-        "command": "lorapok-atlas.openPanel",
-        "title": "Lorapok Atlas: Open API Directory"
-      },
+        "command": "lorapok-atlas.open",
+        "title": "Lorapok Atlas: Open API Directory",
+        "icon": "media/icon-activity.svg"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "lorapok-atlas.open",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
       {
-        "command": "lorapok-atlas.insertSnippet",
-        "title": "Lorapok Atlas: Insert API Snippet"
+        "command": "lorapok-atlas.open",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
       }
     ]
   },
   "scripts": {
     "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
     "watch": "npm run build -- --watch",
-    "package": "vsce package",
+    "package": "npx @vscode/vsce package --no-dependencies",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
