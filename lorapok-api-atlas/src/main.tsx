@@ -8,3 +8,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
   </React.StrictMode>,
 )
+
+// Hide the pre-render SEO content once React has mounted
+const preRender = document.getElementById('pre-render')
+if (preRender) preRender.style.display = 'none'
