@@ -66,26 +66,27 @@ html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;display:flex;flex-direction:column}
 
 /* ── Top bar ── */
-.topbar{flex-shrink:0;background:linear-gradient(180deg,#080f1e 0%,#060d18 100%);border-bottom:1px solid var(--border);padding:10px 12px 8px;display:flex;flex-direction:column;gap:7px}
-.logo-row{display:flex;align-items:center;gap:10px}
-.larva-wrap{width:34px;height:34px;flex-shrink:0;cursor:pointer;filter:drop-shadow(0 0 6px rgba(74,222,128,.3))}
-.larva-wrap svg{width:34px;height:34px}
-.brand{flex:1;min-width:0}
-.brand-name{font-size:14px;font-weight:900;background:linear-gradient(90deg,#4ade80 0%,#38bdf8 50%,#818cf8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;letter-spacing:-.3px}
-.brand-tag{font-size:8px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
-.stats-row{display:flex;gap:6px}
-.stat{flex:1;background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.12);border-radius:7px;padding:5px 4px;text-align:center;position:relative;overflow:hidden}
-.stat::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(74,222,128,.04),transparent);pointer-events:none}
-.stat-n{font-size:13px;font-weight:900;color:var(--green);line-height:1;font-variant-numeric:tabular-nums}
-.stat-l{font-size:7px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
-.search-wrap{position:relative}
-.search-wrap input{width:100%;background:#0a1525;border:1px solid var(--border);border-radius:8px;padding:7px 10px 7px 30px;color:var(--text);font-size:11px;outline:none;transition:all .15s}
-.search-wrap input:focus{border-color:var(--sky);background:#0d1f38;box-shadow:0 0 0 2px rgba(56,189,248,.08)}
+.topbar{flex-shrink:0;background:linear-gradient(180deg,#080f1e 0%,#060c17 100%);border-bottom:1px solid var(--border);padding:0 12px;display:flex;flex-direction:column}
+.topbar-row1{display:flex;align-items:center;gap:8px;height:44px;border-bottom:1px solid rgba(26,48,80,.6)}
+.larva-wrap{width:28px;height:28px;flex-shrink:0;cursor:pointer;filter:drop-shadow(0 0 5px rgba(74,222,128,.35))}
+.larva-wrap svg{width:28px;height:28px}
+.brand-name{font-size:13px;font-weight:900;background:linear-gradient(90deg,#4ade80 0%,#38bdf8 55%,#818cf8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.2px;white-space:nowrap}
+.brand-tag{font-size:7.5px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.divider{width:1px;height:20px;background:var(--border);flex-shrink:0;margin:0 2px}
+.stats-inline{display:flex;gap:12px;align-items:center}
+.stat-inline{display:flex;align-items:baseline;gap:3px}
+.stat-n{font-size:13px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums;line-height:1}
+.stat-l{font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.topbar-row2{display:flex;align-items:center;gap:6px;height:38px}
+.search-wrap{flex:1;position:relative;min-width:0}
+.search-wrap input{width:100%;background:#0a1525;border:1px solid var(--border);border-radius:7px;padding:5px 10px 5px 28px;color:var(--text);font-size:11px;outline:none;transition:all .15s;height:28px}
+.search-wrap input:focus{border-color:var(--sky);background:#0d1f38;box-shadow:0 0 0 2px rgba(56,189,248,.07)}
 .search-wrap input::placeholder{color:var(--dim)}
-.search-wrap .si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:11px;pointer-events:none}
-.filter-row{display:flex;gap:4px;align-items:center}
-.fb{padding:3px 9px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:9px;cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:600}
-.fb.active{border-color:var(--sky);color:var(--sky);background:rgba(56,189,248,.1);box-shadow:0 0 8px rgba(56,189,248,.1)}
+.search-wrap .si{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:11px;pointer-events:none}
+.filter-row{display:flex;gap:3px;align-items:center;flex-shrink:0}
+.fb{padding:3px 8px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:9px;cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:600;height:24px;display:flex;align-items:center}
+.fb.active{border-color:var(--sky);color:var(--sky);background:rgba(56,189,248,.1);box-shadow:0 0 6px rgba(56,189,248,.1)}
+.sort-sel{background:#0a1525;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:9px;padding:3px 5px;outline:none;cursor:pointer;height:24px;flex-shrink:0}
 
 /* ── Layout ── */
 .layout{flex:1;display:flex;overflow:hidden;min-height:0}
@@ -190,7 +191,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <body>
 <!-- Top bar -->
 <div class="topbar">
-  <div class="logo-row">
+  <div class="topbar-row1">
     <div class="larva-wrap" onclick="toggleSidebar()" title="Toggle categories">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -214,30 +215,33 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <path d="M13 13.5 Q16 15 19 13.5" fill="none" stroke="#bbf7d0" stroke-width=".8" opacity=".7"/>
       </svg>
     </div>
-    <div class="brand">
+    <div>
       <div class="brand-name">Lorapok Atlas</div>
       <div class="brand-tag">◈ Open Source Intelligence</div>
     </div>
+    <div class="divider"></div>
+    <div class="stats-inline">
+      <div class="stat-inline"><span class="stat-n" id="s-total">0</span><span class="stat-l">APIs</span></div>
+      <div class="stat-inline"><span class="stat-n" id="s-cats" style="color:var(--sky)">0</span><span class="stat-l">Cats</span></div>
+      <div class="stat-inline"><span class="stat-n" id="s-free" style="color:var(--indigo)">0</span><span class="stat-l">Free</span></div>
+    </div>
   </div>
-  <div class="stats-row">
-    <div class="stat"><div class="stat-n" id="s-total">0</div><div class="stat-l">APIs</div></div>
-    <div class="stat"><div class="stat-n" id="s-cats">0</div><div class="stat-l">Cats</div></div>
-    <div class="stat"><div class="stat-n" id="s-free">0</div><div class="stat-l">Free</div></div>
-  </div>
-  <div class="search-wrap">
-    <span class="si">🔍</span>
-    <input id="search" placeholder="Search 2100+ APIs…" oninput="onSearch()" autocomplete="off"/>
-  </div>
-  <div class="filter-row">
-    <button class="fb active" id="f-all" onclick="setAuth('all')">All</button>
-    <button class="fb" id="f-free" onclick="setAuth('free')">🔓 Free</button>
-    <button class="fb" id="f-key" onclick="setAuth('key')">🗝 Key</button>
-    <button class="fb" id="f-oauth" onclick="setAuth('oauth')">🔑 OAuth</button>
-    <select style="background:#0c1828;border:1px solid var(--border);border-radius:5px;color:var(--muted);font-size:9px;padding:2px 5px;outline:none;cursor:pointer;margin-left:auto" id="sort" onchange="render()">
-      <option value="default">Default</option>
-      <option value="az">A→Z</option>
-      <option value="za">Z→A</option>
-    </select>
+  <div class="topbar-row2">
+    <div class="search-wrap">
+      <span class="si">🔍</span>
+      <input id="search" placeholder="Search 2100+ APIs…" oninput="onSearch()" autocomplete="off"/>
+    </div>
+    <div class="filter-row">
+      <button class="fb active" id="f-all" onclick="setAuth('all')">All</button>
+      <button class="fb" id="f-free" onclick="setAuth('free')">🔓</button>
+      <button class="fb" id="f-key" onclick="setAuth('key')">🗝</button>
+      <button class="fb" id="f-oauth" onclick="setAuth('oauth')">🔑</button>
+      <select class="sort-sel" id="sort" onchange="render()">
+        <option value="default">Default</option>
+        <option value="az">A→Z</option>
+        <option value="za">Z→A</option>
+      </select>
+    </div>
   </div>
 </div>
 <!-- Layout -->
