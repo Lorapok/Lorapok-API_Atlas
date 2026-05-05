@@ -3990,7 +3990,10 @@ export default function App() {
               <div style={{ fontSize: 16, fontWeight: 800, color: '#d4e4f7', marginBottom: 4 }}>Stay in the loop</div>
               <div style={{ fontSize: 13, color: '#4a6278' }}>New APIs added weekly. Star the repo to get notified.</div>
             </div>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+              <a href="https://www.producthunt.com/products/lorapok-atlas-api-directory?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-lorapok-atlas-api-directory" target="_blank" rel="noopener noreferrer">
+                <img alt="Lorapok Atlas API Directory on Product Hunt" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1139854&theme=dark&t=1778009983625" width="200" height="43" style={{ display: 'block' }}/>
+              </a>
               <a href="https://github.com/Maijied/Lorapok-API_Atlas" target="_blank" rel="noopener noreferrer"
                 style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 9, background: '#fff', border: 'none', color: '#1f2937', fontSize: 13, fontWeight: 700, textDecoration: 'none', transition: 'all 0.15s', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.4)' }}
