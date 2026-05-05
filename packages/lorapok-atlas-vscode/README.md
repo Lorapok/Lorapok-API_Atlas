@@ -2,6 +2,8 @@
 
 > Browse, search, and insert code snippets from 2100+ free open-source APIs directly in VS Code.
 
+[![Featured on Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1139854&theme=light&t=1778009983625)](https://www.producthunt.com/products/lorapok-atlas-api-directory?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-lorapok-atlas-api-directory)
+
 [![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/lorapok.lorapok-atlas?style=flat-square&color=38bdf8&label=VS%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=lorapok.lorapok-atlas)
 [![License: MIT](https://img.shields.io/badge/License-MIT-34d399?style=flat-square)](../../LICENSE)
 

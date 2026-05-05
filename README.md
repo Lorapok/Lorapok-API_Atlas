@@ -8,6 +8,8 @@
 
 *The world's most comprehensive open-source API sandbox — 2100+ curated APIs, AI assistant, live testing, and more.*
 
+[![Featured on Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1139854&theme=light&t=1778009983625)](https://www.producthunt.com/products/lorapok-atlas-api-directory?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-lorapok-atlas-api-directory)
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-4ade80?style=for-the-badge&logo=github)](https://maijied.github.io/Lorapok-API_Atlas/)
 [![APIs](https://img.shields.io/badge/APIs-2100%2B-38bdf8?style=for-the-badge)](https://maijied.github.io/Lorapok-API_Atlas/)
 [![npm](https://img.shields.io/npm/v/lorapok-atlas?style=for-the-badge&color=38bdf8&label=npm)](https://www.npmjs.com/package/lorapok-atlas)
