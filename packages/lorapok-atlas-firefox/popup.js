@@ -91,6 +91,7 @@ function initUI() {
   document.getElementById('s-cats').textContent  = CATS.length;
   document.getElementById('s-free').textContent  = ALL.filter(a=>!a.authRequired).length;
   buildSidebar(); render(); bindEvents();
+  initWeather();
 }
 
 function bindEvents() {
@@ -106,9 +107,6 @@ function bindEvents() {
   document.getElementById('overlay').addEventListener('click', e => {
     if (e.target === document.getElementById('overlay')) closeModal();
   });
-  document.querySelectorAll('.mtab').forEach(btn =>
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab, btn))
-  );
   document.querySelectorAll('.lt').forEach(btn =>
     btn.addEventListener('click', () => setLang(btn.dataset.lang, btn))
   );
@@ -117,6 +115,12 @@ function bindEvents() {
   );
   document.getElementById('btn-run').addEventListener('click', runTest);
   document.getElementById('btn-add-hdr').addEventListener('click', () => addHeader());
+
+  // btn-run-inline toggles inline test
+  document.getElementById('btn-run-inline').addEventListener('click', () => {
+    const t = document.getElementById('inline-test');
+    t.style.display = t.style.display === 'none' ? 'block' : 'none';
+  });
 
   // Author modal
   document.getElementById('btn-author').addEventListener('click', () => {
@@ -270,6 +274,13 @@ function openModal(idx) {
   document.getElementById('m-url').textContent  = a.url;
   document.getElementById('m-desc').textContent = a.description || '';
 
+  // Set visit site link
+  const visitEl = document.getElementById('m-visit');
+  visitEl.href = a.url;
+
+  // Reset inline test
+  document.getElementById('inline-test').style.display = 'none';
+
   document.querySelectorAll('.lt').forEach((t,i) => t.classList.toggle('active', i===0));
   activeLang = 'javascript';
   document.getElementById('m-snippet').textContent = getSnippet(a, activeLang);
@@ -288,8 +299,6 @@ function openModal(idx) {
     ['POST','PUT','PATCH'].includes(a.method) ? 'block' : 'none';
 
   if (a.authRequired) addHeader('Authorization', 'Bearer YOUR_KEY');
-
-  switchTab('snippet', document.querySelector('.mtab[data-tab="snippet"]'));
 
   // Build action buttons with DOM (no innerHTML)
   const actions = document.getElementById('m-actions');
@@ -318,13 +327,6 @@ function openModal(idx) {
 function closeModal() {
   document.getElementById('overlay').classList.remove('show');
   selectedApi = null;
-}
-
-function switchTab(tab, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
-  if (btn) btn.classList.add('active');
 }
 
 function setLang(lang, btn) {
@@ -447,4 +449,148 @@ function flashBtn(id, label) {
   const orig = btn.textContent;
   btn.textContent = label;
   setTimeout(() => { btn.textContent=orig; }, 1500);
+}
+
+// ── Weather ──────────────────────────────────────────────────
+function initWeather() {
+  // Use Open-Meteo free API - no key needed
+  // Get user's approximate location via IP geolocation first
+  fetch('https://ipapi.co/json/')
+    .then(r => r.json())
+    .then(loc => {
+      const lat = loc.latitude || 23.8103;
+      const lon = loc.longitude || 90.4125;
+      const city = loc.city || 'Dhaka';
+      return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode,windspeed_10m&timezone=auto`)
+        .then(r => r.json())
+        .then(data => ({ data, city, lat, lon }));
+    })
+    .then(({ data, city }) => {
+      const temp = Math.round(data.current.temperature_2m);
+      const code = data.current.weathercode;
+      const desc = getWeatherDesc(code);
+      document.getElementById('weather-temp').textContent = temp + '°C';
+      document.getElementById('weather-desc').textContent = city + ' · ' + desc;
+      updateWeatherTime();
+      drawWeatherCanvas(code, temp);
+      setInterval(updateWeatherTime, 60000);
+    })
+    .catch(() => {
+      document.getElementById('weather-desc').textContent = 'Weather unavailable';
+      drawWeatherCanvas(0, null);
+    });
+}
+
+function updateWeatherTime() {
+  const now = new Date();
+  document.getElementById('weather-time').textContent =
+    now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function getWeatherDesc(code) {
+  if (code === 0) return 'Clear sky';
+  if (code <= 3) return 'Partly cloudy';
+  if (code <= 9) return 'Foggy';
+  if (code <= 19) return 'Drizzle';
+  if (code <= 29) return 'Rain';
+  if (code <= 39) return 'Snow';
+  if (code <= 49) return 'Fog';
+  if (code <= 59) return 'Drizzle';
+  if (code <= 69) return 'Rain';
+  if (code <= 79) return 'Snow';
+  if (code <= 84) return 'Rain showers';
+  if (code <= 94) return 'Thunderstorm';
+  return 'Storm';
+}
+
+function drawWeatherCanvas(code, temp) {
+  const canvas = document.getElementById('weather-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 120, H = 40;
+  ctx.clearRect(0, 0, W, H);
+
+  const now = new Date();
+  const hour = now.getHours();
+  const isNight = hour < 6 || hour >= 20;
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  if (isNight) {
+    grad.addColorStop(0, '#0a0e1a');
+    grad.addColorStop(1, '#0d1528');
+  } else if (code <= 3) {
+    grad.addColorStop(0, '#0a1628');
+    grad.addColorStop(1, '#0d2040');
+  } else {
+    grad.addColorStop(0, '#0c1a2e');
+    grad.addColorStop(1, '#0a1520');
+  }
+  ctx.fillStyle = grad;
+  ctx.roundRect(0, 0, W, H, 6);
+  ctx.fill();
+
+  if (isNight) {
+    // Stars
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    [[10,8],[25,5],[40,12],[55,6],[70,10],[85,4],[100,8],[110,14]].forEach(([x,y]) => {
+      ctx.beginPath(); ctx.arc(x, y, 0.8, 0, Math.PI*2); ctx.fill();
+    });
+    // Moon
+    ctx.fillStyle = '#ffd166';
+    ctx.beginPath(); ctx.arc(95, 20, 8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#0a0e1a';
+    ctx.beginPath(); ctx.arc(99, 18, 6, 0, Math.PI*2); ctx.fill();
+  } else if (code <= 3) {
+    // Sun
+    ctx.fillStyle = 'rgba(255,209,102,0.15)';
+    ctx.beginPath(); ctx.arc(95, 20, 14, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ffd166';
+    ctx.beginPath(); ctx.arc(95, 20, 9, 0, Math.PI*2); ctx.fill();
+    // Sun rays
+    ctx.strokeStyle = 'rgba(255,209,102,0.5)';
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < 8; i++) {
+      const a = (i * Math.PI) / 4;
+      ctx.beginPath();
+      ctx.moveTo(95 + Math.cos(a)*12, 20 + Math.sin(a)*12);
+      ctx.lineTo(95 + Math.cos(a)*16, 20 + Math.sin(a)*16);
+      ctx.stroke();
+    }
+  }
+
+  // Clouds for cloudy/rainy
+  if (code >= 2) {
+    const cloudX = code <= 3 ? 60 : 70;
+    ctx.fillStyle = code >= 50 ? 'rgba(100,130,160,0.7)' : 'rgba(150,180,210,0.5)';
+    [[cloudX,22,10],[cloudX+10,18,8],[cloudX+20,22,10],[cloudX-8,24,7]].forEach(([x,y,r]) => {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+    });
+  }
+
+  // Rain drops
+  if (code >= 50 && code <= 79) {
+    ctx.strokeStyle = 'rgba(56,189,248,0.6)';
+    ctx.lineWidth = 1;
+    [[20,28,26,36],[35,30,31,38],[50,27,46,35],[65,31,61,39],[80,28,76,36]].forEach(([x1,y1,x2,y2]) => {
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    });
+  }
+
+  // Snow
+  if (code >= 70 && code <= 79) {
+    ctx.fillStyle = 'rgba(200,230,255,0.8)';
+    [[20,30],[35,34],[50,28],[65,32],[80,30]].forEach(([x,y]) => {
+      ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI*2); ctx.fill();
+    });
+  }
+
+  // Lightning for thunderstorm
+  if (code >= 80) {
+    ctx.strokeStyle = '#ffd166';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(30, 20); ctx.lineTo(25, 28); ctx.lineTo(30, 28); ctx.lineTo(24, 38);
+    ctx.stroke();
+  }
 }
