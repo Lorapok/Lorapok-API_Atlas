@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Lorapok Atlas — API Directory",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Browse, search, and live-test 2100+ free open-source APIs directly in Firefox",
   "author": "Mohammad Maizied Hasan Majumder",
   "developer": {
@@ -14,7 +14,9 @@
       "id": "lorapok-atlas@lorapok.github.io",
       "strict_min_version": "109.0",
       "data_collection_permissions": {
-        "required": ["none"],
+        "required": [
+          "none"
+        ],
         "optional": []
       }
     }
