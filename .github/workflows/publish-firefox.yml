@@ -1,0 +1,68 @@
+name: Publish Firefox Extension
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/lorapok-atlas-firefox/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Sync latest API data
+        run: cp lorapok-api-atlas/src/data/api_collection.json packages/lorapok-atlas-firefox/data/api_collection.json
+
+      - name: Install web-ext
+        run: npm install -g web-ext
+
+      - name: Bump version
+        working-directory: packages/lorapok-atlas-firefox
+        run: |
+          VERSION=$(node -e "const m=require('./manifest.json');const p=m.version.split('.');p[2]=parseInt(p[2]||0)+1;console.log(p.join('.'))")
+          node -e "
+            const fs=require('fs');
+            const m=JSON.parse(fs.readFileSync('manifest.json','utf8'));
+            m.version='$VERSION';
+            fs.writeFileSync('manifest.json',JSON.stringify(m,null,2)+'\n');
+          "
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Build ZIP
+        working-directory: packages/lorapok-atlas-firefox
+        run: |
+          zip -r lorapok-atlas-firefox-${{ env.VERSION }}.zip \
+            manifest.json popup.html popup.js popup.css data/ icons/ README.md
+
+      - name: Sign & Publish to AMO
+        working-directory: packages/lorapok-atlas-firefox
+        run: |
+          web-ext sign \
+            --api-key=${{ secrets.AMO_API_KEY }} \
+            --api-secret=${{ secrets.AMO_API_SECRET }} \
+            --channel=listed \
+            --source-dir=. \
+            --artifacts-dir=./artifacts
+        continue-on-error: true
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lorapok-atlas-firefox-${{ env.VERSION }}
+          path: packages/lorapok-atlas-firefox/lorapok-atlas-firefox-*.zip
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add packages/lorapok-atlas-firefox/manifest.json
+          git diff --staged --quiet || git commit -m "chore(firefox): bump version to ${{ env.VERSION }}"
+          git push

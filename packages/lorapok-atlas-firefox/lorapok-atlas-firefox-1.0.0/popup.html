@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Lorapok Atlas — API Directory</title>
+  <link rel="stylesheet" href="popup.css"/>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div class="topbar">
+  <div class="topbar-row1">
+    <div class="larva-wrap" id="larva-toggle" title="Toggle categories">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="100%" stop-color="#16a34a"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#818cf8"/>
+          </linearGradient>
+        </defs>
+        <!-- Body segments (bottom to top) -->
+        <ellipse cx="16" cy="26"   rx="3.5" ry="2.5" fill="url(#g1)" opacity=".6"/>
+        <ellipse cx="16" cy="21.5" rx="4.5" ry="3"   fill="url(#g1)" opacity=".75"/>
+        <ellipse cx="16" cy="16.5" rx="5.5" ry="3.5" fill="url(#g1)" opacity=".9"/>
+        <!-- Head -->
+        <ellipse cx="16" cy="10.5" rx="6"   ry="5"   fill="url(#g1)"/>
+        <!-- Eyes -->
+        <circle cx="13.5" cy="9.5" r="1.8" fill="#0a1628"/>
+        <circle class="eye-l" cx="13.5" cy="9.5" r="1" fill="#38bdf8"/>
+        <circle cx="18.5" cy="9.5" r="1.8" fill="#0a1628"/>
+        <circle class="eye-r" cx="18.5" cy="9.5" r="1" fill="#818cf8"/>
+        <!-- Antennae -->
+        <line x1="13" y1="5.5" x2="11" y2="3" stroke="url(#g2)" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="10.5" cy="2.5" r="1.1" fill="#38bdf8"/>
+        <line x1="19" y1="5.5" x2="21" y2="3" stroke="url(#g2)" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="21.5" cy="2.5" r="1.1" fill="#818cf8"/>
+        <!-- Arm stubs -->
+        <path d="M10.5 16 Q8 15.5 7.5 16.5 Q8 17.5 10.5 17" fill="url(#g1)" opacity=".8"/>
+        <path d="M21.5 16 Q24 15.5 24.5 16.5 Q24 17.5 21.5 17" fill="url(#g1)" opacity=".8"/>
+        <!-- Smile -->
+        <path d="M13 13.5 Q16 15 19 13.5" fill="none" stroke="#bbf7d0" stroke-width=".8" opacity=".7"/>
+      </svg>
+    </div>
+
+    <div>
+      <div class="brand-name">Lorapok Atlas</div>
+      <div class="brand-tag">◈ Open Source Intelligence</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="stats-inline">
+      <div class="stat-inline">
+        <span class="stat-n" id="s-total">0</span>
+        <span class="stat-l">APIs</span>
+      </div>
+      <div class="stat-inline">
+        <span class="stat-n" id="s-cats" style="color:var(--sky)">0</span>
+        <span class="stat-l">Cats</span>
+      </div>
+      <div class="stat-inline">
+        <span class="stat-n" id="s-free" style="color:var(--indigo)">0</span>
+        <span class="stat-l">Free</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="topbar-row2">
+    <div class="search-wrap">
+      <span class="si">🔍</span>
+      <input id="search" placeholder="Search 2100+ APIs…" autocomplete="off"/>
+    </div>
+    <div class="filter-row">
+      <button class="fb active" id="f-all">All</button>
+      <button class="fb" id="f-free">🔓</button>
+      <button class="fb" id="f-key">🗝</button>
+      <button class="fb" id="f-oauth">🔑</button>
+      <select class="sort-sel" id="sort">
+        <option value="default">Default</option>
+        <option value="az">A→Z</option>
+        <option value="za">Z→A</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ── Layout ── -->
+<div class="layout">
+  <div class="sidebar" id="sidebar">
+    <div id="cat-list"></div>
+  </div>
+  <div class="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<!-- ── Modal ── -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-hdr">
+      <span class="modal-method" id="m-method"></span>
+      <div class="modal-info">
+        <div class="modal-name" id="m-name"></div>
+        <div class="modal-cat"  id="m-cat"></div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+
+    <div class="modal-url"  id="m-url"></div>
+    <div class="modal-desc" id="m-desc"></div>
+
+    <div class="modal-tabs">
+      <button class="mtab active" data-tab="snippet">Code Snippet</button>
+      <button class="mtab"        data-tab="test">▶ Run Test</button>
+    </div>
+
+    <div class="tab-body">
+      <!-- Snippet pane -->
+      <div class="tab-pane active" id="tab-snippet">
+        <div class="lang-tabs">
+          <button class="lt active" data-lang="javascript">JS</button>
+          <button class="lt"        data-lang="python">Python</button>
+          <button class="lt"        data-lang="curl">cURL</button>
+        </div>
+        <pre class="snippet" id="m-snippet"></pre>
+      </div>
+
+      <!-- Test pane -->
+      <div class="tab-pane" id="tab-test">
+        <div class="test-row">
+          <span class="test-method" id="t-method">GET</span>
+          <input class="test-url" id="t-url" placeholder="https://…"/>
+          <button class="btn-run" id="btn-run">▶ Run</button>
+        </div>
+
+        <div class="test-headers">
+          <div class="test-headers-title">
+            Headers <button class="btn-add-hdr" id="btn-add-hdr">+ Add</button>
+          </div>
+          <div id="headers-list"></div>
+        </div>
+
+        <div class="test-body-wrap" id="body-wrap" style="display:none">
+          <div class="test-body-title">Request Body (JSON)</div>
+          <textarea class="test-body" id="t-body" placeholder='{"key": "value"}'></textarea>
+        </div>
+
+        <div class="test-status" id="t-status">
+          <span class="sdot" id="t-dot"></span>
+          <span id="t-text"></span>
+          <span id="t-time" style="margin-left:auto;color:var(--dim)"></span>
+        </div>
+
+        <div class="resp-tabs" id="resp-tabs" style="display:none">
+          <button class="rt active" data-resp="pretty">Pretty</button>
+          <button class="rt"        data-resp="raw">Raw</button>
+        </div>
+
+        <pre class="test-response" id="t-response"></pre>
+        <div class="cors-note" id="cors-note">
+          🚧 CORS blocked — the API doesn't allow browser requests.<br>
+          Try the cURL snippet in your terminal instead.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions" id="m-actions"></div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<div class="footer">
+  <div class="footer-left">
+    <span class="footer-product">A product of</span>
+    <button class="footer-lorapok" id="btn-author">🐛 Lorapok Labs</button>
+  </div>
+  <div class="footer-right">
+    <a class="footer-link" href="https://www.producthunt.com/products/lorapok-atlas-api-directory" target="_blank">🚀 Product Hunt</a>
+    <a class="footer-link" href="https://github.com/Maijied/Lorapok-API_Atlas" target="_blank">⭐ GitHub</a>
+    <a class="footer-link" href="https://maijied.github.io/Lorapok-API_Atlas/" target="_blank">🌐 Web App</a>
+  </div>
+</div>
+
+<!-- ── Author Modal ── -->
+<div class="overlay" id="author-overlay">
+  <div class="author-modal">
+    <button class="modal-close" id="author-close">✕</button>
+    <div class="author-header">
+      <div class="author-avatar">
+        <img src="https://0.gravatar.com/avatar/7c901cfacc79334975b520600a357d97cf33eff6646608a0f91786744eda6c37?s=80&d=initials" alt="Mohammad Maizied" width="64" height="64"/>
+      </div>
+      <div class="author-info">
+        <div class="author-name">Mohammad Maizied</div>
+        <div class="author-full">Hasan Majumder</div>
+        <div class="author-role">Founder, Lorapok Labs · Dhaka, Bangladesh</div>
+      </div>
+    </div>
+    <div class="author-divider"></div>
+    <div class="author-org">
+      <div class="author-org-name">🐛 Lorapok Labs</div>
+      <div class="author-org-desc">Open-source ecosystem of tools, applications, and platforms focused on developer productivity, API exploration, and modern interfaces.</div>
+    </div>
+    <div class="author-links">
+      <a class="author-link" href="https://lorapok.github.io" target="_blank">🌐 lorapok.github.io</a>
+      <a class="author-link" href="https://gravatar.com/lorapok" target="_blank">👤 gravatar.com/lorapok</a>
+      <a class="author-link" href="https://github.com/maijied" target="_blank">🐙 github.com/maijied</a>
+      <a class="author-link" href="https://www.linkedin.com/in/maizied/" target="_blank">💼 linkedin.com/in/maizied</a>
+    </div>
+    <div class="author-divider"></div>
+    <div class="author-product">
+      <div class="author-product-label">This Extension</div>
+      <div class="author-product-name">Lorapok Atlas API Directory</div>
+      <div class="author-product-desc">2100+ free APIs · VS Code · MCP · npm · REST API · Firefox</div>
+      <a class="author-product-link" href="https://maijied.github.io/Lorapok-API_Atlas/" target="_blank">Open Web App →</a>
+    </div>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
