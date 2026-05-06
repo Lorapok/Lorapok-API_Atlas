@@ -68,10 +68,11 @@ html, body {
 
 .brand-tag {
   font-size: 7.5px;
-  color: var(--dim);
+  color: #38bdf8;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   white-space: nowrap;
+  opacity: .7;
 }
 
 .divider {
@@ -679,7 +680,7 @@ html, body {
   gap: 8px;
 }
 .footer-left { display: flex; align-items: center; gap: 7px; }
-.footer-product { font-size: 10px; color: var(--dim); }
+.footer-product { font-size: 10px; color: #4a6278; }
 .footer-lorapok {
   background: transparent;
   border: 1px solid rgba(74,222,128,.25);
@@ -696,7 +697,7 @@ html, body {
 .footer-right { display: flex; align-items: center; gap: 10px; }
 .footer-link {
   font-size: 10px;
-  color: var(--muted);
+  color: #6a8fa8;
   text-decoration: none;
   transition: color .15s;
   white-space: nowrap;
@@ -705,6 +706,29 @@ html, body {
   gap: 4px;
 }
 .footer-link:hover { color: var(--sky); }
+.footer-version {
+  font-size: 9px;
+  color: #2a4a62;
+  margin-left: 4px;
+  font-family: monospace;
+}
+.footer-help {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(56,189,248,.3);
+  background: rgba(56,189,248,.08);
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.footer-help:hover { background: rgba(56,189,248,.2); border-color: var(--sky); }
 
 /* ── Author Modal ── */
 .author-modal {
@@ -818,3 +842,107 @@ html, body {
   transition: all .15s;
 }
 .author-product-link:hover { background: rgba(74,222,128,.18); }
+
+/* ── How to Use Modal ── */
+.howto-modal {
+  background: linear-gradient(135deg, #0c1828, #091220);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  width: min(500px, 95vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,.9);
+  padding: 22px;
+  position: relative;
+}
+.howto-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.howto-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.howto-steps { display: flex; flex-direction: column; gap: 12px; }
+.howto-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.howto-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(56,189,248,.15);
+  border: 1px solid rgba(56,189,248,.3);
+  color: var(--sky);
+  font-size: 11px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.howto-step-title { font-size: 12px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+.howto-step-desc { font-size: 10px; color: var(--muted); line-height: 1.5; }
+.howto-tip {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: rgba(74,222,128,.06);
+  border: 1px solid rgba(74,222,128,.2);
+  border-radius: 8px;
+  font-size: 10px;
+  color: #4ade80;
+  line-height: 1.5;
+}
+
+/* ── Header badge ── */
+.header-badge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  animation: livepulse 2s infinite;
+}
+@keyframes livepulse {
+  0%,100% { opacity: 1; box-shadow: 0 0 6px #4ade80; }
+  50% { opacity: .5; box-shadow: 0 0 12px #4ade80; }
+}
+.live-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #4ade80;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.ph-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(251,191,36,.08);
+  border: 1px solid rgba(251,191,36,.2);
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fbbf24;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.ph-badge:hover { background: rgba(251,191,36,.15); }

@@ -68,6 +68,12 @@
         <span class="stat-l">Free</span>
       </div>
     </div>
+
+    <div class="header-badge">
+      <span class="live-dot"></span>
+      <span class="live-label">Live</span>
+      <a class="ph-badge" href="https://www.producthunt.com/products/lorapok-atlas-api-directory" target="_blank">🚀 Product Hunt</a>
+    </div>
   </div>
 
   <div class="topbar-row2">
@@ -178,11 +184,13 @@
   <div class="footer-left">
     <span class="footer-product">A product of</span>
     <button class="footer-lorapok" id="btn-author">🐛 Lorapok Labs</button>
+    <span class="footer-version" id="footer-version">v1.0.2</span>
   </div>
   <div class="footer-right">
     <a class="footer-link" href="https://www.producthunt.com/products/lorapok-atlas-api-directory" target="_blank">🚀 Product Hunt</a>
     <a class="footer-link" href="https://github.com/Maijied/Lorapok-API_Atlas" target="_blank">⭐ GitHub</a>
     <a class="footer-link" href="https://maijied.github.io/Lorapok-API_Atlas/" target="_blank">🌐 Web App</a>
+    <button class="footer-help" id="btn-howto" title="How to use">?</button>
   </div>
 </div>
 
@@ -218,6 +226,38 @@
       <div class="author-product-desc">2100+ free APIs · VS Code · MCP · npm · REST API · Firefox</div>
       <a class="author-product-link" href="https://maijied.github.io/Lorapok-API_Atlas/" target="_blank">Open Web App →</a>
     </div>
+  </div>
+</div>
+
+<!-- ── How to Use Modal ── -->
+<div class="overlay" id="howto-overlay">
+  <div class="howto-modal">
+    <button class="modal-close" id="howto-close">✕</button>
+    <div class="howto-title">📖 How to Use Lorapok Atlas</div>
+    <div class="howto-sub">Your zero-config API playground in Firefox</div>
+    <div class="howto-steps">
+      <div class="howto-step">
+        <div class="howto-num">1</div>
+        <div><div class="howto-step-title">Browse & Filter</div><div class="howto-step-desc">Click any category in the left sidebar to filter APIs. Use the search bar to find by name, description, or category. Filter by auth type: Free 🔓 / Key 🗝 / OAuth 🔑</div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-num">2</div>
+        <div><div class="howto-step-title">View API Details</div><div class="howto-step-desc">Click any card to open the detail modal. You'll see the endpoint URL, description, HTTP method, and auth requirements.</div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-num">3</div>
+        <div><div class="howto-step-title">Copy Code Snippets</div><div class="howto-step-desc">Switch between JavaScript, Python, and cURL tabs. Click "⎘ Copy Snippet" to copy the ready-to-use code to your clipboard.</div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-num">4</div>
+        <div><div class="howto-step-title">Run Live Tests</div><div class="howto-step-desc">Click "▶ Run Test" tab, add custom headers if needed, then hit Run. The extension tries direct fetch first, then falls back through CORS proxies automatically.</div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-num">5</div>
+        <div><div class="howto-step-title">Get API Keys</div><div class="howto-step-desc">If an API requires a key, click "🔑 Get API Key" to open the signup page in a new tab.</div></div>
+      </div>
+    </div>
+    <div class="howto-tip">💡 Tip: Click the 🐛 larva icon in the header to toggle the category sidebar for more grid space.</div>
   </div>
 </div>
 

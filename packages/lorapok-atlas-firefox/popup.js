@@ -129,6 +129,24 @@ function bindEvents() {
     if (e.target === document.getElementById('author-overlay'))
       document.getElementById('author-overlay').classList.remove('show');
   });
+
+  // How to Use modal
+  document.getElementById('btn-howto').addEventListener('click', () => {
+    document.getElementById('howto-overlay').classList.add('show');
+  });
+  document.getElementById('howto-close').addEventListener('click', () => {
+    document.getElementById('howto-overlay').classList.remove('show');
+  });
+  document.getElementById('howto-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('howto-overlay'))
+      document.getElementById('howto-overlay').classList.remove('show');
+  });
+
+  // Set version in footer from manifest
+  fetch('../manifest.json').then(r => r.json()).then(m => {
+    const el = document.getElementById('footer-version');
+    if (el) el.textContent = 'v' + m.version;
+  }).catch(() => {});
 }
 
 // ── Sidebar ──────────────────────────────────────────────────
